@@ -1,5 +1,6 @@
 package org.apache.giraph.examples;
 
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -79,12 +80,12 @@ BasicComputation<Text, Text, NullWritable, Text> {
 				double neighborVisitId = getVisitId(neighbor);
 
 				if (neighborVisitId < currentVisitId) {
-					currentComponent = neighbor;
+					currentComponent.set(neighbor);
 				}
 			}
 
 			// Only need to send value if it is not the own id
-			if (currentComponent != vertex.getValue()) {
+			if (!currentComponent.equals(vertex.getValue())) {
 				vertex.setValue(new Text(currentComponent));
 				for (Edge<Text, NullWritable> edge : vertex.getEdges()) {
 
@@ -114,7 +115,7 @@ BasicComputation<Text, Text, NullWritable, Text> {
 			double candidateVisitId = getVisitId(candidateComponent);
 
 			if (candidateVisitId < currentVisitId) {
-				currentComponent = candidateComponent;
+				currentComponent.set(candidateComponent);
 				changed = true;
 			}
 		}
